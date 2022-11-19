@@ -12,7 +12,7 @@ import (
 
 var (
 	members  = map[string]net.Conn{}
-	Massages string
+	Messages string
 	Mutex    sync.Mutex
 	Count    int = 0
 )
