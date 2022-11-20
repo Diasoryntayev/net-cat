@@ -22,25 +22,26 @@ func main() {
 
 	if len(args) == 1 {
 		_, err := strconv.Atoi(args[0])
-		pkg.Error(err)
+		if err != nil {
+			fmt.Println("Your port isn't number")
+			return
+		}
 		port = args[0]
 	}
-
 	fmt.Printf("Listening on the port: " + port)
+
 	ln, err := net.Listen("tcp", ":"+port)
 	pkg.Error(err)
-
-	count := 0
 
 	for {
 
 		connection, err := ln.Accept()
 		pkg.Error(err)
-		count++
-		if count > 10 {
+		pkg.Count++
+		if pkg.Count > 10 {
 			connection.Write([]byte("Chat is full. Try again later!"))
 			connection.Close()
 		}
-		// go pkg.Chat(connection)
+		go pkg.ToChat(connection)
 	}
 }
